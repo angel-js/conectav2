@@ -2,37 +2,37 @@ from django.db import models
 
 # Create your models here.
 class Region(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     nombre_region = models.CharField(max_length=35)
 
     class Meta:
-        managed = False
         db_table = 'region'
+        verbose_name_plural = "Regiones"
+        ordering= ["nombre_region"]
 
 class Comuna(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    nombre_region = models.CharField(max_length=35)
-    id_region = models.OneToOneField('Region', models.DO_NOTHING, db_column='id_region')
+    nombre_comuna = models.CharField(max_length=35)
+    id_region = models.OneToOneField('Region', on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
         db_table = 'comuna'
+        verbose_name_plural = "Comuna"
+        ordering= ["nombre_comuna"]
 
 
 class Rol(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     nombre_rol = models.CharField(max_length=20)
-    lectura = models.BooleanField() # This field type is a guess.
-    escritura = models.BooleanField()  # This field type is a guess.
-    borrar = models.BooleanField()  # This field type is a guess.
-    crear = models.BooleanField()  # This field type is a guess.
+    lectura = models.BooleanField(default=True) # This field type is a guess.
+    actualizar = models.BooleanField(default=True)  # This field type is a guess.
+    borrar = models.BooleanField(default=True)  # This field type is a guess.
+    crear = models.BooleanField(default=True)  # This field type is a guess. 
 
     class Meta:
-        managed = False
         db_table = 'rol'
+        verbose_name_plural = "Roles"
+        ordering= ["nombre_rol"]
+
 
 class Persona(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     rut = models.CharField(unique=True, max_length=15)
     nombre = models.CharField(max_length=20)
     apellido = models.CharField(max_length=30)
@@ -41,97 +41,102 @@ class Persona(models.Model):
     sexo = models.CharField(max_length=10)
     email = models.CharField(max_length=80)
     contrasenia = models.CharField(max_length=80)
-    id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE, db_column='id_rol', default=3)
-    id_region = models.OneToOneField('Region', models.DO_NOTHING, db_column='id_region')
-    id_comuna = models.OneToOneField('Comuna', models.DO_NOTHING, db_column='id_comuna')
+    id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+    id_region = models.OneToOneField('Region', on_delete=models.CASCADE)
+    id_comuna = models.OneToOneField('Comuna', on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
         db_table = 'persona'
         abstract = True
+        verbose_name_plural = "Comunas"
+        ordering= ["rut"]
+
 
 class Usuario(Persona):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     email = models.CharField(max_length=80)
     contrasenia = models.CharField(max_length=80)
 
     class Meta:
-        managed = False
         db_table = 'usuario'
         abstract = True
+        verbose_name_plural = "Usuarios"
+        ordering= ["email"]
 
 class Paciente(Persona):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     sexo_biologico = models.CharField(max_length=20)
-    id_patologia = models.ManyToOne('Patologia', models.DO_NOTHING, null=True)
+    id_patologia = models.ManyToManyField('Patologia')
 
     class Meta:
-        managed = False
         db_table = 'paciente'
+        verbose_name_plural = "Pacientes"
+        ordering= ["id"]
 
 class Patologia(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     nombre_patologia = models.CharField(max_length=35)
 
     class Meta:
-        managed = False
         db_table = 'patologia'
+        verbose_name_plural = "Patologias"
+        ordering= ["nombre_patologia"]
+
 
 class Ingreso(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     fecha_comentario = models.DateField()
     hora_comentario = models.TimeField()
-    id_paciente = models.ForeignKey('Paciente', models.DO_NOTHING, db_column='id_paciente')
-    id_sintoma = models.ManyToOne('Sintoma', models.DO_NOTHING, null=True)
+    id_paciente = models.ForeignKey('Paciente', on_delete=models.CASCADE)
+    id_sintoma = models.ManyToManyField('Sintoma')
 
     class Meta:
-        managed = False
         db_table = 'ingreso'
+        verbose_name_plural = "Ingresos"
+        ordering= ["id"]
+
 
 class Sintoma(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     nombre_sintoma = models.CharField(max_length=35)
 
     class Meta:
-        managed = False
-        db_table = 'sintomas'
+        db_table = 'sintoma'
+        verbose_name_plural = "Sintomas"
+        ordering= ["id"]
 
 class Familiar(Usuario):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     relacion_paciente = models.CharField(max_length=30)
 
     class Meta:
-        managed = False
         db_table = 'familiar'
+        verbose_name_plural = "Familiares"
+        ordering= ["relacion_paciente"]
 
 
 class Funcionario(Usuario):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     cargo = models.CharField(max_length=30)
 
     class Meta:
-        managed = False
         db_table = 'funcionario'
+        verbose_name_plural = "Funcionarios"
+        ordering= ["cargo"]
+
 
 
 class Ficha(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    id_comentario = models.ForeignKey(Comentario, models.DO_NOTHING, db_column='id_comentario')
-    id_ingreso = models.ForeignKey('Ingreso', models.DO_NOTHING, db_column='id_ingresos')
-    id_paciente = models.ForeignKey('Paciente',  models.DO_NOTHING, db_column='id_paciente', unique=True )
+    id_comentario = models.ForeignKey('Comentario', on_delete=models.CASCADE)
+    id_ingreso = models.ForeignKey('Ingreso', on_delete=models.CASCADE)
+    id_paciente = models.ForeignKey('Paciente', unique=True , on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
         db_table = 'ficha'
+        verbose_name_plural = "Fichas"
+        ordering= ["id"]
 
 class Comentario(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     fecha_comentario = models.DateField()
     hora_comentario = models.TimeField()
-    estado = models.CharField(db_column='Estado', max_length=20)  # Field name made lowercase.
-    comentario = models.CharField(db_column='Comentario', max_length=300)  # Field name made lowercase.
-    id_funcionario = models.ForeignKey('Funcionario', models.DO_NOTHING, db_column='id_funcionario')
+    estado = models.CharField(max_length=20)  # Field name made lowercase.
+    comentario = models.CharField( max_length=300)  # Field name made lowercase.
+    id_funcionario = models.ForeignKey('Funcionario', on_delete=models.CASCADE)
 
     class Meta:
-        managed = False
         db_table = 'comentario'
+        verbose_name_plural = "Comentarios"
+        ordering= ["id_funcionario"]
