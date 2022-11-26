@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{% block busq %}
+
+
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6 ">
+        <div class="row d-flex justify-content-center">
+            <h2>Registro</h2>
+        </div>
+        <div class="row d-flex justify-content-center">
+        <form action="{% url 'ficha' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-info" value="Enviar">
+        </div>
+        </form>
+    </div>
+    <div class="col-sm-3"></div>
+</div>
+
+{% endblock %}

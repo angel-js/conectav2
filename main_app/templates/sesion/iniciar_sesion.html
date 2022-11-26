@@ -1,0 +1,51 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{% block navbar %}  
+<!-- Navbar   -->
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="javascript:void(0)">Conecta +</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mynavbar">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">Guia de Uso</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">¿Quienes somos?</a>
+          </li>
+        </ul>
+        <div class="d-flex ">
+          <a href="{% url 'registro' %}">
+            <button class="btn btn-primary m-2" type="button">Registrarse</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>  
+  {% endblock %} 
+
+
+{% block formulario %} 
+<!-- Inicio del formulario -->
+<div class="row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-6">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{form.nombre}}
+      {{form.password}}
+      <input type="submit" class="btn btn-info" value="Enviar">
+    </form>    
+  </div>
+  <div class="col-sm-3"></div>
+</div>
+
+
+
+<!-- Fin del formulario -->
+  {% endblock%}
