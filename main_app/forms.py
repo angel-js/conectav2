@@ -1,6 +1,8 @@
 from django import forms 
 from django.core import validators
+from .models import Comentario
 
+# Registro
 class UserRegisterForm(forms.Form):
 
     ESTADOS = [('activo', 'ACTIVO'), ('inactivo', 'INACTIVO')]
@@ -29,3 +31,10 @@ class UserRegisterForm(forms.Form):
         if inputEmail.find('@') == -1:
             raise forms.ValidationError('El correo debe contener @')
         return inputEmail
+# Fin registro
+
+#Comentario
+class FormComentario(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = '__all__'
