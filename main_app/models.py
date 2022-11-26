@@ -39,8 +39,6 @@ class Persona(models.Model):
     edad = models.IntegerField()
     fecha_nacimiento = models.DateField()
     sexo = models.CharField(max_length=10)
-    email = models.CharField(max_length=80)
-    contrasenia = models.CharField(max_length=80)
     id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
     id_region = models.OneToOneField('Region', on_delete=models.CASCADE)
     id_comuna = models.OneToOneField('Comuna', on_delete=models.CASCADE)
