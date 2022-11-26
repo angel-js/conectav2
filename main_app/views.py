@@ -33,7 +33,6 @@ def FamiliarRegistrationView(request):
             form.save()
             print("Form is valid!")
 
-
     data = {'form': form}
     return render(request, 'sesion/userRegistration.html', data)
 # Fin Registro
