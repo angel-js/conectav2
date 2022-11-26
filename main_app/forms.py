@@ -1,6 +1,6 @@
 from django import forms 
 from django.core import validators
-from .models import Comentario
+from .models import Comentario, Familiar
 
 # Registro
 class UserRegisterForm(forms.Form):
@@ -31,10 +31,29 @@ class UserRegisterForm(forms.Form):
         if inputEmail.find('@') == -1:
             raise forms.ValidationError('El correo debe contener @')
         return inputEmail
+
+
 # Fin registro
 
 #Comentario
 class FormComentario(forms.ModelForm):
+
+    ESTADOS = [('estable', 'ESTABLE'), ('alerta', 'ALERTA'), ('cuidado intensivo','CUIDADO INTENSIVO')]
+    estado = forms.CharField(widget=forms.Select(choices=ESTADOS))
     class Meta:
         model = Comentario
+        fields = '__all__'
+
+# MI REGISTRO USUARIO
+class RegistroFamiliar(forms.ModelForm):
+    ESTADOS = [('masculino', 'MASCULINO'), ('femino', 'FEMENINO')]
+    ROL = [('familiar', 'FAMILIAR')]
+    REGION = [('region metropolitana', 'REGION METROPOLITANA'), ('valparaiso', 'VALPARAISO'), ('coquimbo', 'COQUIMBO'), ('los lagos', 'LOS LAGOS')]
+    COMUNAS =[('santiago centro', 'SANTIAGO CENTRO'), ('la reina', 'LA REINA'), ('peñaflor', 'PEÑAFLOR')]
+    sexo = forms.CharField(widget=forms.Select(choices=ESTADOS))
+    id_rol = forms.CharField(widget=forms.Select(choices=ROL))
+    id_region = forms.CharField(widget=forms.Select(choices=REGION))
+    id_comuna = forms.CharField(widget=forms.Select(choices=COMUNAS))
+    class Meta:
+        model = Familiar
         fields = '__all__'

@@ -23,6 +23,23 @@ def UserRegistrationView(request):
     return render(request, 'sesion/userRegistration.html', data)
 # Fin Registro
 
+# MI - Guia
+def FamiliarRegistrationView(request):
+    form = forms.RegistroFamiliar()
+    
+    if request.method == 'POST':
+        form = forms.RegistroFamiliar(request.POST)
+        if form.is_valid():
+            print("Form is valid!")
+            print("Nombre: ", form.cleaned_data['nombre'])
+            print("Apellido: ", form.cleaned_data['apellido'])
+            print("Correo: ", form.cleaned_data['email'])
+            print("Contraseña: ", form.cleaned_data['contrasenia'])
+
+    data = {'form': form}
+    return render(request, 'sesion/userRegistration.html', data)
+# Fin Registro
+
 def IniciarSesion(request):
     return render(request, 'sesion/iniciar_sesion.html')
 

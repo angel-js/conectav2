@@ -12,9 +12,9 @@
             <h2>Registro</h2>
         </div>
         <div class="row d-flex justify-content-center">
-        <form action="{% url 'home' %}" method="POST">
-            {{ form.as_p }}
+        <form action="{% url 'ficha' %}" method="POST">
             {% csrf_token %}
+            {{ form.as_p }}
             <input type="submit" class="btn btn-info" value="Enviar">
         </div>
         </form>

@@ -40,8 +40,8 @@ class Persona(models.Model):
     fecha_nacimiento = models.DateField()
     sexo = models.CharField(max_length=10)
     id_rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
-    id_region = models.OneToOneField('Region', on_delete=models.CASCADE)
-    id_comuna = models.OneToOneField('Comuna', on_delete=models.CASCADE)
+    id_region = models.ManyToManyField('Region') #on_delete=models.CASCADE)
+    id_comuna = models.ManyToManyField('Comuna') #on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'persona'
