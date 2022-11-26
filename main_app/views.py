@@ -30,11 +30,9 @@ def FamiliarRegistrationView(request):
     if request.method == 'POST':
         form = forms.RegistroFamiliar(request.POST)
         if form.is_valid():
+            form.save()
             print("Form is valid!")
-            print("Nombre: ", form.cleaned_data['nombre'])
-            print("Apellido: ", form.cleaned_data['apellido'])
-            print("Correo: ", form.cleaned_data['email'])
-            print("Contraseña: ", form.cleaned_data['contrasenia'])
+
 
     data = {'form': form}
     return render(request, 'sesion/userRegistration.html', data)

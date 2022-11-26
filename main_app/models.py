@@ -119,8 +119,8 @@ class Funcionario(Usuario):
 
 
 class Ficha(models.Model):
-    id_comentario = models.ForeignKey('Comentario', on_delete=models.CASCADE)
-    id_ingreso = models.ForeignKey('Ingreso', on_delete=models.CASCADE)
+    id_comentario = models.ForeignKey('Comentario', on_delete=models.CASCADE, null=True)
+    id_ingreso = models.ForeignKey('Ingreso', on_delete=models.CASCADE, null=True)
     id_paciente = models.OneToOneField('Paciente',  on_delete=models.CASCADE)
 
     class Meta:
