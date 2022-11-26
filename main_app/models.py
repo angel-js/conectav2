@@ -100,6 +100,7 @@ class Sintoma(models.Model):
 
 class Familiar(Usuario):
     relacion_paciente = models.CharField(max_length=30)
+    id_paciente = models.OneToOneField('Paciente', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'familiar'
@@ -120,7 +121,7 @@ class Funcionario(Usuario):
 class Ficha(models.Model):
     id_comentario = models.ForeignKey('Comentario', on_delete=models.CASCADE)
     id_ingreso = models.ForeignKey('Ingreso', on_delete=models.CASCADE)
-    id_paciente = models.ForeignKey('Paciente', unique=True , on_delete=models.CASCADE)
+    id_paciente = models.OneToOneField('Paciente',  on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'ficha'
